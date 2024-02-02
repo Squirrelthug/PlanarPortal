@@ -1,13 +1,11 @@
-from turtle import Turtle, Screen
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
-sma = Turtle()
-screen = Screen()
+class Menu:
+    def __init__(self):
+        # Initialize the menu
+        self.popup = Popup(title='Menu', content=Label(text='Menu Content'), size_hint=(None, None), size=(400, 400))
 
-initialization_sequence()
-
-screen.exitonclick()
-
-# add button for untapping all card objects on playmat
-
-# add button for adding custom token; prompt user for name, attack/defense (optional), body of card
-
+    def show(self):
+        # Display the menu
+        self.popup.open()
