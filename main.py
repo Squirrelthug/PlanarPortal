@@ -6,10 +6,9 @@
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.graphics import Line, Color
-from kivy.uix.button import Button
 from kivy.uix.widget import Widget
-from common.library_popup import LibraryPopup
-
+from btn_dir.library_button_behavior import DraggableLibraryButton as DragLibBtn
+from common.button_behaviors import DraggableButton as DragBtn
 
 class Playmat(Widget):
     def __init__(self, **kwargs):
@@ -34,22 +33,6 @@ class Playmat(Widget):
 class PlanarPortalApp(App):
     def __init__(self, **kwargs):
         super(PlanarPortalApp, self).__init__(**kwargs)
-        self.button_moved = False
-        self.initial_pos = None
-
-    def on_button_move(self, instance, touch):
-        self.initial_pos = instance.pos
-        if instance.collide_point(*touch.pos):
-            instance.center = touch.pos
-
-    def show_libraries(self, instance):     # Show the libraries popup
-        self.library_popup.show()
-
-    def timed_popup(self, instance):        # Schedule the libraries popup
-        if self.button_moved:               # Check if the button was moved
-            return                          # If it was, return immediately without scheduling show_libraries
-        self.show_libraries(instance)       # Otherwise, initiate the show_libraries method
-        self.button_moved = False           # Reset the flag to False
 
     def build(self):
         Window.clearcolor = (0, 0, 0, 1)    # Black background
@@ -59,47 +42,43 @@ class PlanarPortalApp(App):
         playmat = Playmat()                 # Create a new playmat for grid from playmat class
         main_widget.add_widget(playmat)     # Add the playmat to the main widget
 
-        # CREATE BUTTONS
-        # Exit
-        exit_button = Button(text='Exit',
-                             size_hint=(None, None),
-                             size=(300, 150),
-                             pos=(70, Window.height - 10))
+        # Exit                              # CREATE BUTTONS
+        exit_button = DragBtn(text='Exit',
+                              size_hint=(None, None),
+                              size=(300, 150),
+                              pos=(70, Window.height - 10))
 
         # Refresh
-        refresh_button = Button(text='Refresh',
-                                size_hint=(None, None),
-                                size=(100, 50),
-                                pos=(20, Window.height - 100))
+        refresh_button = DragBtn(text='Refresh',
+                                 size_hint=(None, None),
+                                 size=(100, 50),
+                                 pos=(20, Window.height - 100))
         # Start Game
-        start_game_button = Button(text='Start Game',
+        start_game_button = DragBtn(text='Start Game',
+                                    size_hint=(None, None),
+                                    size=(300, 150),
+                                    pos=(250, Window.height - 20))
+        # Libraries
+        libraries_button = DragLibBtn(text='Libraries',
                                    size_hint=(None, None),
                                    size=(300, 150),
-                                   pos=(250, Window.height - 20))
-        # Libraries
-        libraries_button = Button(text='Libraries',
-                                  size_hint=(None, None),
-                                  size=(300, 150),
-                                  pos=(1200, Window.height - 90))
+                                   pos=(1200, Window.height - 90))
 
         # Bind the buttons to their respective methods
         refresh_button.bind(on_press=lambda x: playmat.draw_grid())         # Refresh the grid
-        libraries_button.bind(on_release=self.timed_popup)                  # Delayed popup
+        libraries_button.bind(on_release=DragLibBtn.lib_popup)              # Popup on release
         exit_button.bind(on_press=lambda x: App.get_running_app().stop())   # Exit the app
 
         # Use .bind to make the buttons movable
-        refresh_button.bind(on_touch_move=self.on_button_move)
-        libraries_button.bind(on_touch_move=self.on_button_move)
-        start_game_button.bind(on_touch_move=self.on_button_move)
+        refresh_button.bind(on_touch_move=DragBtn.on_touch_move_action)
+        libraries_button.bind(on_touch_move=DragLibBtn.on_touch_move_action)
+        start_game_button.bind(on_touch_move=DragBtn.on_touch_move_action)
 
         # Add the buttons to the main_widget
         main_widget.add_widget(exit_button)
         main_widget.add_widget(refresh_button)
         main_widget.add_widget(start_game_button)
         main_widget.add_widget(libraries_button)
-
-        # Libraries popup
-        self.library_popup = LibraryPopup()
 
         return main_widget
 
