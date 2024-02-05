@@ -7,7 +7,8 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.graphics import Line, Color
 from kivy.uix.widget import Widget
-from btn_dir.library_button_behavior import DraggableLibraryButton as DragLibBtn
+from btn_dir.home_libraries_portal import DraggableLibraryButton as DragLibBtn
+from btn_dir.portal_deck_button import PortalDeckButton as DeckBtn
 from common.button_behaviors import DraggableButton as DragBtn
 
 class Playmat(Widget):
@@ -36,7 +37,7 @@ class PlanarPortalApp(App):
 
     def build(self):
         Window.clearcolor = (0, 0, 0, 1)    # Black background
-        Window.fullscreen = 'auto'          # Fullscreen mode
+        Window.fullscreen = 'auto'          # Full screen mode
         main_widget = Widget()
 
         playmat = Playmat()                 # Create a new playmat for grid from playmat class
@@ -58,6 +59,11 @@ class PlanarPortalApp(App):
                                     size_hint=(None, None),
                                     size=(300, 150),
                                     pos=(250, Window.height - 20))
+        # Deck
+        deck_button = DeckBtn(text='Deck',
+                                   size_hint=(None, None),
+                                   size=(300, 150),
+                                   pos=(1600, Window.height - 140))
         # Libraries
         libraries_button = DragLibBtn(text='Libraries',
                                    size_hint=(None, None),
@@ -68,17 +74,20 @@ class PlanarPortalApp(App):
         refresh_button.bind(on_press=lambda x: playmat.draw_grid())         # Refresh the grid
         libraries_button.bind(on_release=DragLibBtn.lib_popup)              # Popup on release
         exit_button.bind(on_press=lambda x: App.get_running_app().stop())   # Exit the app
+        deck_button.bind(on_release=DeckBtn.deck_popup_behavior)                     # Popup on release
 
         # Use .bind to make the buttons movable
         refresh_button.bind(on_touch_move=DragBtn.on_touch_move_action)
         libraries_button.bind(on_touch_move=DragLibBtn.on_touch_move_action)
         start_game_button.bind(on_touch_move=DragBtn.on_touch_move_action)
+        deck_button.bind(on_touch_move=DeckBtn.on_touch_move_action)
 
         # Add the buttons to the main_widget
         main_widget.add_widget(exit_button)
         main_widget.add_widget(refresh_button)
         main_widget.add_widget(start_game_button)
         main_widget.add_widget(libraries_button)
+        main_widget.add_widget(deck_button)
 
         return main_widget
 
