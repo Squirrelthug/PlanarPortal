@@ -8,7 +8,7 @@ from kivy.core.window import Window
 from kivy.graphics import Line, Color
 from kivy.uix.widget import Widget
 from btn_dir.home_libraries_portal import DraggableLibraryButton as DragLibBtn
-from btn_dir.portal_deck_button import PortalDeckButton as DeckBtn
+from btn_dir.game_deck_portal import GameDeckPortal as DeckBtn
 from common.button_behaviors import DraggableButton as DragBtn
 
 class Playmat(Widget):

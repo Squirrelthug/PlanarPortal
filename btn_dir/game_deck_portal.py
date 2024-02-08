@@ -32,9 +32,9 @@ class DeckOptionsPopup:
         self.popup.open()
 
 
-class PortalDeckButton(Button):
+class GameDeckPortal(Button):
     def __init__(self, **kwargs):
-        super(PortalDeckButton, self).__init__(**kwargs)
+        super(GameDeckPortal, self).__init__(**kwargs)
         self.button_moved = False
         self.initial_pos = None
         self.deck_popup = DeckOptionsPopup()
@@ -66,7 +66,7 @@ class PortalDeckButton(Button):
 
 class MyApp(App):
     def build(self):
-        return PortalDeckButton(text="Drag or Tap")
+        return GameDeckPortal(text="Drag or Tap")
 
 
 if __name__ == '__main__':
