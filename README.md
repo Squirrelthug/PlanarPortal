@@ -21,7 +21,7 @@ PlanarPortal empowers both players and creators, providing a space to explore, p
 1. Clone this repository to your local machine.
 2. Install the necessary dependencies.
    a. WILL UPDATE WHEN NECESSARY
-4. Run main.py to launch PlanarPortal.
+3. Run main.py to launch PlanarPortal.
 
 ## Libraries and Licenses
 
