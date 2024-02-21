@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 
 Builder.load_string('''
-<DraggableButton>:
+<DraggableLibraryButton>:
     on_press: self.on_press_action()
     on_touch_move: self.on_touch_move_action(args[1])
 ''')

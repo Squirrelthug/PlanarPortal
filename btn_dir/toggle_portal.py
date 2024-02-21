@@ -20,10 +20,10 @@ class DraggableToggleButton(Button):
         self.screen_handler = ScreenHandler()
         self.playmat = Playmat()                # Initialize the Playmat object
 
+
     def on_press_action(self):
         self.initial_pos = self.pos
         print("Toggle Button touched")
-        self.toggle_state()
 
     def on_touch_move_action(self, touch):
         if self.collide_point(*touch.pos):
@@ -31,28 +31,42 @@ class DraggableToggleButton(Button):
             self.center = touch.pos             # Update button position when touched
             if self.initial_pos != touch.pos:   # Check if the button was moved
                 self.button_moved = True        # Set the button_moved flag if it was
+        return True
 
     def on_release_action(self):
         self.button_moved = False               # Reset the button_moved flag
         print("Toggle Button released")
 
     def toggle_state(self):
-        if self.is_game_state:
+        app = App.get_running_app()
+        is_game_state = app.is_game_state
+        game_buttons = app.game_buttons
+        menu_buttons = app.menu_buttons
+        print(f"Before toggle: is_game_state: {is_game_state}")
+        if self.button_moved:
+            self.button_moved = False
+            return
+        if is_game_state:
+            print(game_buttons)
             # if game state is active hide menu buttons and show game buttons
-            for button in self.menu_buttons:
-                button.size = (0, 0)  # Hide the button
-                button.disabled = True  # Disable the button
-            for button in self.game_buttons:
-                button.size = (300, 150)  # Show the button
-                button.disabled = False  # Enable the button
+            for button in menu_buttons:
+                button.size = (0, 0)
+                button.disabled = True
+            for button in game_buttons:
+                button.size = (300, 150)
+                button.disabled = False
         else:
+            print(menu_buttons)
             # if menu state is active hide game buttons and show menu buttons
-            for button in self.game_buttons:
-                button.size = (0, 0)  # Hide the button
-                button.disabled = True  # Disable the button
-            for button in self.menu_buttons:
-                button.size = (300, 150)  # Show the button
-                button.disabled = False  # Enable the button
+            for button in game_buttons:
+                button.size = (0, 0)
+                button.disabled = True
+            for button in menu_buttons:
+                button.size = (300, 150)
+                button.disabled = False
+        app.is_game_state = not is_game_state
+        print(f"After toggle: is_game_state: {is_game_state}")
+        self.button_moved = False
 
 
 class MyApp(App):

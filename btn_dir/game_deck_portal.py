@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 
 Builder.load_string('''
-<PortalDeckButton>:
+<GameDeckButton>:
     on_press: self.on_press_action()
     on_touch_move: self.on_touch_move_action(args[1])
 ''')
@@ -32,9 +32,9 @@ class DeckOptionsPopup:
         self.popup.open()
 
 
-class GameDeckPortal(Button):
+class GameDeckButton(Button):
     def __init__(self, **kwargs):
-        super(GameDeckPortal, self).__init__(**kwargs)
+        super(GameDeckButton, self).__init__(**kwargs)
         self.button_moved = False
         self.initial_pos = None
         self.deck_popup = DeckOptionsPopup()
@@ -66,7 +66,7 @@ class GameDeckPortal(Button):
 
 class MyApp(App):
     def build(self):
-        return GameDeckPortal(text="Drag or Tap")
+        return GameDeckButton(text="Drag or Tap")
 
 
 if __name__ == '__main__':
