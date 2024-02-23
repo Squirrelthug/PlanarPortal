@@ -1,5 +1,7 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.label import Label
@@ -29,12 +31,15 @@ class LibraryPopup:
         self.popup.open()
 
 
-class DraggableLibraryButton(Button):
+class DraggableLibraryButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super(DraggableLibraryButton, self).__init__(**kwargs)
         self.button_moved = False
         self.initial_pos = None
         self.library_popup = LibraryPopup()
+
+    def on_press(self):
+        self.on_press_action()
 
     def on_press_action(self):
         self.initial_pos = self.pos

@@ -2,6 +2,8 @@
 from kivy.uix.button import Button
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.image import Image
 
 # Load Kivy string for DraggableButton
 Builder.load_string('''
@@ -11,11 +13,14 @@ Builder.load_string('''
 ''')
 
 # Define ExitButton class which inherits from Kivy's Button class
-class ExitButton(Button):
+class ExitButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super(ExitButton, self).__init__(**kwargs)
         self.button_moved = False  # Flag to check if button was moved
         self.initial_pos = None  # Store initial position of button
+
+    def on_press(self):
+        self.on_press_action()
 
     # Method to handle on_press event
     def on_press_action(self):

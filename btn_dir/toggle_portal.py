@@ -1,9 +1,10 @@
 from kivy.uix.button import Button
 from kivy.app import App
 from kivy.lang import Builder
-
 from common.screen_handler import ScreenHandler
 from common.playmat import Playmat
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
 
 Builder.load_string('''
 <DraggableToggleButton>:
@@ -12,7 +13,7 @@ Builder.load_string('''
 ''')
 
 
-class DraggableToggleButton(Button):
+class DraggableToggleButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super(DraggableToggleButton, self).__init__(**kwargs)
         self.button_moved = False
@@ -20,6 +21,8 @@ class DraggableToggleButton(Button):
         self.screen_handler = ScreenHandler()
         self.playmat = Playmat()                # Initialize the Playmat object
 
+    def on_press(self):
+        self.on_press_action()
 
     def on_press_action(self):
         self.initial_pos = self.pos
@@ -50,18 +53,22 @@ class DraggableToggleButton(Button):
             print(game_buttons)
             # if game state is active hide menu buttons and show game buttons
             for button in menu_buttons:
+                button.opacity = 0
                 button.size = (0, 0)
                 button.disabled = True
             for button in game_buttons:
+                button.opacity = 1
                 button.size = (300, 150)
                 button.disabled = False
         else:
             print(menu_buttons)
             # if menu state is active hide game buttons and show menu buttons
             for button in game_buttons:
+                button.opacity = 0
                 button.size = (0, 0)
                 button.disabled = True
             for button in menu_buttons:
+                button.opacity = 1
                 button.size = (300, 150)
                 button.disabled = False
         app.is_game_state = not is_game_state

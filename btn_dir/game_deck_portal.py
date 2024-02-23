@@ -4,6 +4,8 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.uix.image import Image
+from kivy.uix.behaviors import ButtonBehavior
 
 Builder.load_string('''
 <GameDeckButton>:
@@ -32,12 +34,15 @@ class DeckOptionsPopup:
         self.popup.open()
 
 
-class GameDeckButton(Button):
+class GameDeckButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
         super(GameDeckButton, self).__init__(**kwargs)
         self.button_moved = False
         self.initial_pos = None
         self.deck_popup = DeckOptionsPopup()
+
+    def on_press(self):
+        self.on_press_action()
 
     def on_press_action(self):
         self.initial_pos = self.pos
