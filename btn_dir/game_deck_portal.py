@@ -21,7 +21,7 @@ class DeckOptionsPopup:
                                      'Draw (x) cards [to hand]\n'
                                      'Discard (x) cards to graveyard\n'
                                      'Draw (x) cards to board [default facedown]'))
-        layout.add_widget(Button(text='Import',
+        layout.add_widget(Button(text='Shuffle',
                                  size_hint=(None, None),
                                  size=(100, 50)))
         self.popup = Popup(title='Deck Options',

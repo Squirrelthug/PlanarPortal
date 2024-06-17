@@ -17,14 +17,13 @@ Builder.load_string('''
 class GraveOptionsPopup:
     def __init__(self):
         layout = BoxLayout(orientation='vertical')
-        layout.add_widget(Label(text='Deck Options: \n\n'
+        layout.add_widget(Label(text='Graveyard Options: \n\n'
                                      'Draw (x) cards [to hand]\n'
-                                     'Discard (x) cards to graveyard\n'
-                                     'Draw (x) cards to board [default facedown]'))
-        layout.add_widget(Button(text='Import',
+                                     'Exile (x) cards from game'))
+        layout.add_widget(Button(text='Shuffle',
                                  size_hint=(None, None),
                                  size=(100, 50)))
-        self.popup = Popup(title='Deck Options',
+        self.popup = Popup(title='Graveyard Options',
                            content=layout,
                            size_hint=(None, None),
                            size=(400, 400))
@@ -46,11 +45,11 @@ class GameGraveButton(ButtonBehavior, Image):
 
     def on_press_action(self):
         self.initial_pos = self.pos
-        print("Deck button pressed")
+        print("Grave button pressed")
 
     def on_touch_move_action(self, touch):
         if self.collide_point(*touch.pos):
-            print("Deck Button dragged")
+            print("Grave Button dragged")
             # Update button position or perform drag action
             self.center = touch.pos
             if self.initial_pos != touch.pos:
@@ -58,10 +57,10 @@ class GameGraveButton(ButtonBehavior, Image):
 
     def on_release_action(self):
         self.button_moved = False           # Reset the button_moved flag
-        print("Deck Button released")
+        print("Grave Button released")
 
     def grave_popup_behavior(self):
-        print("deck_button_moved status: ", self.button_moved)
+        print("grave_button_moved status: ", self.button_moved)
         if self.button_moved:               # Check if the button was moved
             self.button_moved = False       # If it was, reset the button_moved flag
             return                          # And, return immediately without triggering the popup
